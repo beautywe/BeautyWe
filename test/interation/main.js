@@ -29,14 +29,14 @@ export default function main({ BtApp, BtPage }) {
             name: 'pluginA',
             relyOn: [
                 'pluginB',
-                { name: 'pluginC', npmName: '@youzan/beautywe-plugin-pluginC', version: '0.0.2' },
+                { name: 'pluginC', npmName: '@beautywe/plugin-pluginC', version: '0.0.2' },
             ],
         });
         const pluginB = ({ name: 'pluginB' });
         // eslint-disable-next-line
-        const pluginC_version001 = ({ name: 'pluginC', npmName: '@youzan/beautywe-plugin-pluginC', version: '0.0.1' });
+        const pluginC_version001 = ({ name: 'pluginC', npmName: '@beautywe/plugin-pluginC', version: '0.0.1' });
         // eslint-disable-next-line
-        const pluginC_version002 = ({ name: 'pluginC', npmName: '@youzan/beautywe-plugin-pluginC', version: '0.0.2' });
+        const pluginC_version002 = ({ name: 'pluginC', npmName: '@beautywe/plugin-pluginC', version: '0.0.2' });
 
         return Promise
             .resolve()

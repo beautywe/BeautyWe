@@ -18,10 +18,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@gitlab.qima-inc.com:huangpeijie/beautywe.git"
+    "url": "git+https://github.com/beautywe/beautywe-core.git"
   },
+  "bugs": {
+    "url": "https://github.com/beautywe/beautywe-core/issues"
+  },
+  "homepage": "https://github.com/beautywe/beautywe-core#readme",
   "author": "JerryC(huangjerryc@gmail.com)",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
