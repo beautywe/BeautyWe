@@ -1,0 +1,10 @@
+src
+test
+.nyc_output
+.vscode
+coverage
+.eslintignore
+.eslintrc
+.gitignore
+webpack.config.js
+.circleci

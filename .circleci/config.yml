@@ -1,0 +1,104 @@
+# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
+version: 2.1
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8.12.0
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-.
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: npm install
+      - run: npm run build:pro
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: 
+          name: Test And Report
+          command: |
+              npm i tap-xunit ava --save-dev
+              mkdir -p ./reports
+              ./node_modules/.bin/ava --tap | ./node_modules/.bin/tap-xunit > ./reports/ava.xml
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: ./reports/ava.xml
+
+  test-coverage:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Test Coverage
+          command: npm run test:coverage
+      # - run:
+      #     name: Report for coveralls
+      #     command: |
+      #         npm install coveralls --save-dev
+      #         ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
+      - store_artifacts:
+          path: coverage
+
+  eslint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: ./node_modules/.bin/eslint ./src 
+
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
+
+workflows:
+  build-test-and-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - test-coverage:
+          requires:
+            - build
+      - eslint:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - build
+            - test
+            - eslint
+          filters:
+            branches:
+              only: master
