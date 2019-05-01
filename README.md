@@ -68,5 +68,17 @@ myApp.use(event());
 App(myApp);
 ```
 
+之后，你就能使用 `plugin-event` 提供的能力了：
+
+```javascript
+const app = getApp();
+
+// now you can listening and trigger an event
+myApp.event.on('hello', (msg) => console.log(msg));
+myApp.event.trigger('hello', 'I am jc');
+```
+
+更多详细内容，请查看：[官方文档](https://beautywe.github.io/docs)
+
 ## License
 [MIT](LICENSE)
