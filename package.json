@@ -1,6 +1,6 @@
 {
   "name": "@beautywe/core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Write beautiful code for wechat mini app by the beautiful we !",
   "main": "dist/index.js",
   "scripts": {
@@ -12,7 +12,9 @@
     "lint": "git diff --cached --name-only | grep -E '\\.(js|jsx)$' | xargs eslint",
     "build:pro": "rm -rf ./dist && babel src -d dist && webpack"
   },
-  "keywords": ["beautywe"],
+  "keywords": [
+    "beautywe"
+  ],
   "pre-commit": [
     "lint"
   ],
