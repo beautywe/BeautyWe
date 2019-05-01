@@ -1,7 +1,7 @@
 {
   "name": "@beautywe/core",
   "version": "0.0.2",
-  "description": "",
+  "description": "Write beautiful code for wechat mini app by the beautiful we !",
   "main": "dist/index.js",
   "scripts": {
     "test": "ava",
@@ -24,7 +24,7 @@
     "url": "https://github.com/beautywe/beautywe-core/issues"
   },
   "homepage": "https://github.com/beautywe/beautywe-core#readme",
-  "author": "JerryC(huangjerryc@gmail.com)",
+  "author": "JerryC8080 (huangjerryc@gmail.com)",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
