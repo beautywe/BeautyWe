@@ -54,11 +54,11 @@ jobs:
       - run:
           name: Test Coverage
           command: npm run test:coverage
-      # - run:
-      #     name: Report for coveralls
-      #     command: |
-      #         npm install coveralls --save-dev
-      #         ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
+      - run:
+          name: Report for coveralls
+          command: |
+              npm install coveralls --save-dev
+              ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
       - store_artifacts:
           path: coverage
 
@@ -79,7 +79,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Publish package
-          command: npm publish
+          command: npm publish --access public
 
 workflows:
   build-test-and-deploy:

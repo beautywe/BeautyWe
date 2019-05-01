@@ -1,7 +1,7 @@
 {
   "name": "@beautywe/core",
-  "version": "0.0.2",
-  "description": "",
+  "version": "0.0.4",
+  "description": "Write beautiful code for wechat mini app by the beautiful we !",
   "main": "dist/index.js",
   "scripts": {
     "test": "ava",
@@ -12,7 +12,9 @@
     "lint": "git diff --cached --name-only | grep -E '\\.(js|jsx)$' | xargs eslint",
     "build:pro": "rm -rf ./dist && babel src -d dist && webpack"
   },
-  "keywords": ["beautywe"],
+  "keywords": [
+    "beautywe"
+  ],
   "pre-commit": [
     "lint"
   ],
@@ -24,7 +26,7 @@
     "url": "https://github.com/beautywe/beautywe-core/issues"
   },
   "homepage": "https://github.com/beautywe/beautywe-core#readme",
-  "author": "JerryC(huangjerryc@gmail.com)",
+  "author": "JerryC8080 (huangjerryc@gmail.com)",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
