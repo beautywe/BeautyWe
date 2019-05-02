@@ -1,6 +1,6 @@
 <p align="center">
   <a href="http://beautywejs.com">
-      <img src="https://raw.githubusercontent.com/beautywe/docs/master/docs/images/logo-V4.png">
+      <img width="620" src="https://raw.githubusercontent.com/beautywe/docs/master/docs/images/logo-V4.png">
   </a>
 </p>
 
