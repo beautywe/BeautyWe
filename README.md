@@ -71,7 +71,7 @@ App(myApp);
 之后，你就能使用 `plugin-event` 提供的能力了：
 
 ```javascript
-const app = getApp();
+const myAPp = getApp();
 
 // now you can listening and trigger an event
 myApp.event.on('hello', (msg) => console.log(msg));
