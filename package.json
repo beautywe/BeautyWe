@@ -1,6 +1,6 @@
 {
   "name": "@beautywe/core",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Write beautiful code for wechat mini app by the beautiful we !",
   "main": "dist/index.js",
   "scripts": {
