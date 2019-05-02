@@ -1,6 +1,6 @@
 <p align="center">
   <a href="http://beautywejs.com">
-      <img src="https://img.yzcdn.cn/public_files/2019/04/27/49f46c53afd62f9cebcbcf13b091acbb.png?imageView2/2/h/180">
+      <img src="https://raw.githubusercontent.com/beautywe/docs/master/docs/images/logo-V4.png">
   </a>
 </p>
 
@@ -51,7 +51,7 @@ BeautyWe 是一套微信小程序的开发范式，它由几部分组成：
 
 ## Usage Example
 
-```
+```shell
 npm i @beautywe/core @beautywe/plugin-event
 ```
 
@@ -80,5 +80,15 @@ myApp.event.trigger('hello', 'I am jc');
 
 更多详细内容，请查看：[官方文档](http://beautywejs.com)
 
-## License
-[MIT](LICENSE)
+
+# Contact & Support
+* 欢迎通过邮箱来跟我联系: huangjerryc@gmail.com
+* 欢迎通过 [GitHub issue](https://github.com/beautywe/beautywe/issues) 提交 BUG、以及其他问题
+* 欢迎给该项目点个赞 ⭐️ [star on GitHub](https://github.com/beautywe/beautywe) !
+
+
+
+# License
+This project is licensed under the [MIT license](LICENSE).
+
+Copyright (c) JerryC Huang (huangjerryc@gmail.com)
