@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://beautywe.github.io/docs">
+  <a href="http://beautywejs.com">
       <img src="https://img.yzcdn.cn/public_files/2019/04/27/49f46c53afd62f9cebcbcf13b091acbb.png?imageView2/2/h/180">
   </a>
 </p>
@@ -30,7 +30,7 @@
 </p>
 
 <h3 align="center">
-  <a href="https://beautywe.github.io/docs">📖 Document</a>
+  <a href="http://beautywejs.com">📖 Document</a>
 </h3>
 
 ## Intro
@@ -78,7 +78,7 @@ myApp.event.on('hello', (msg) => console.log(msg));
 myApp.event.trigger('hello', 'I am jc');
 ```
 
-更多详细内容，请查看：[官方文档](https://beautywe.github.io/docs)
+更多详细内容，请查看：[官方文档](http://beautywejs.com)
 
 ## License
 [MIT](LICENSE)
