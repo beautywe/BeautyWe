@@ -1,7 +1,7 @@
 import test from 'ava';
 import BtApp from '../../src/class/bt-app';
 
-function testUseMethod() {
+test('btApp.use', (t) => {
     const counter = {
         pluginA: {},
         pluginB: {},
@@ -43,7 +43,7 @@ function testUseMethod() {
 
     const btApp = new BtApp();
 
-    test('btApp.use', t => Promise
+    return Promise
         .resolve()
 
         // use pluginA only
@@ -73,7 +73,5 @@ function testUseMethod() {
                     t.deepEqual(counter.pluginA.onShow, optSym2);
                     t.deepEqual(counter.pluginB.onShow, optSym2);
                 });
-        }));
-}
-
-testUseMethod();
+        });
+});
