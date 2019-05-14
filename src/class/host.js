@@ -74,8 +74,8 @@ function deepBind({ theHost, funs, domain }) {
 
         // 如果当前 value 是 object，递归。
         if (!Array.isArray(fun) && fun !== null && typeof fun === 'object') {
-            if (domain) result[domain][funName] = deepBind({ theHost, fun, domain });
-            else result[funName] = deepBind({ theHost, fun, domain });
+            if (domain) result[domain][funName] = deepBind({ theHost, funs: fun });
+            else result[funName] = deepBind({ theHost, funs: fun });
         }
 
         // 如果当前 value 是 function，则 bind this with theHost
@@ -270,7 +270,7 @@ class Host {
             const plugin = new BtPlugin(plgs[index]);
 
             // self registerd checking
-            if (theHost._btPlugin.plugins.includes(plugin.name)) {
+            if (theHost._btPlugin.plugins.map(item => item.name).includes(plugin.name)) {
                 throw new BtError(`${plugin.name} 已经注册了，不允许重复注册`);
             }
 

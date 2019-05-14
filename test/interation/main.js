@@ -85,6 +85,16 @@ export default function main({ BtApp, BtPage }) {
                 sayHello() {
                     return { msg: 'hello', context: this };
                 },
+                level2: {
+                    sayHello() {
+                        return { msg: 'hello', context: this };
+                    },
+                    level3: {
+                        sayHello() {
+                            return { msg: 'hello', context: this };
+                        },
+                    },
+                },
             },
         };
         const pluginA = (pluginContent);
@@ -96,8 +106,14 @@ export default function main({ BtApp, BtPage }) {
             t.truthy(app._btPlugin.plugins[0].name, pluginA.name);
 
             const { msg, context } = app.pluginA.sayHello();
+            const { msg: msg2, context: context2 } = app.pluginA.level2.sayHello();
+            const { msg: msg3, context: context3 } = app.pluginA.level2.level3.sayHello();
             t.is(msg, 'hello');
+            t.is(msg2, 'hello');
+            t.is(msg3, 'hello');
             t.is(context, app);
+            t.is(context2, app);
+            t.is(context3, app);
         });
     });
 
@@ -362,6 +378,7 @@ export default function main({ BtApp, BtPage }) {
                 if (this.pluginA.say && this.pluginB.say) {
                     status.customMethodBinded = true;
                 }
+                // eslint-disable-next-line prefer-destructuring
                 status.timestamp.onLoad.page = process.hrtime()[1];
                 return 'page';
             },
@@ -371,6 +388,7 @@ export default function main({ BtApp, BtPage }) {
             name: 'pluginA',
             nativeHook: {
                 onLoad() {
+                    // eslint-disable-next-line prefer-destructuring
                     status.timestamp.onLoad.pluginA = process.hrtime()[1];
                     return 'pluginA';
                 },
@@ -386,6 +404,7 @@ export default function main({ BtApp, BtPage }) {
             name: 'pluginB',
             nativeHook: {
                 onLoad() {
+                    // eslint-disable-next-line prefer-destructuring
                     status.timestamp.onLoad.pluginB = process.hrtime()[1];
                     return 'pluginB';
                 },
@@ -435,5 +454,69 @@ export default function main({ BtApp, BtPage }) {
             .then(() => {
                 t.deepEqual(sayHello, ['onLaunch', 'onShow']);
             });
+    });
+
+    test('[BtPlugin] should throw error with confilc plugin useing', (t) => {
+        const pluginA = {
+            name: 'pluginA',
+            handler: {
+                onClick: () => 'hhh',
+            },
+        };
+
+        const app = new BtApp({
+            onClick: () => 'hhh',
+        });
+
+
+        t.notThrows(() => {
+            app.use(pluginA);
+        });
+
+        const error = t.throws(() => {
+            app.use(pluginA);
+        });
+
+        t.is(error.message, `[BeautyWe:error] ${pluginA.name} 已经注册了，不允许重复注册`);
+    });
+
+    test('[BtPlugin] wrong use way on use', (t) => {
+        const app = new BtApp();
+        t.notThrows(() => {
+            app.use({
+                name: 'pluginA',
+                nativeHook: {
+                    onShow: 'abc',
+                    onClick() {
+                        return 'hh';
+                    },
+                },
+                handler: {
+                    onShow: () => 'hhh',
+                    onClick: 'abc',
+                },
+            });
+        });
+    });
+
+    test.cb('[BtPlugin] throw error on native hook', (t) => {
+        const app = new BtApp({
+            onError(err) {
+                t.is(err.message, 'error from onShow');
+                t.end();
+            },
+        });
+        app.use({
+            name: 'pluginA',
+            nativeHook: {
+                onShow() {
+                    throw new Error('error from onShow');
+                },
+            },
+        });
+
+        app.onLaunch().then(() => app.onShow()).catch((err) => {
+            t.is(err.message, 'error from onShow');
+        });
     });
 }
