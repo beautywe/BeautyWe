@@ -75,3 +75,18 @@ test('btApp.use', (t) => {
                 });
         });
 });
+
+test('has protected key', (t) => {
+    t.is(t.throws(() => new BtApp({
+        use() {
+            return 'use func of plugin';
+        },
+    })).message, 'you can\'t use protected domain: use at BtApp');
+
+    t.is(t.throws(() => new BtApp({
+        _btPlugin: 'hh',
+        use() {
+            return 'use func of plugin';
+        },
+    })).message, 'you can\'t use protected domain: _btPlugin at BtApp');
+});
