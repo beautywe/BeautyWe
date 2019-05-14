@@ -260,6 +260,8 @@ class Host {
         const theHost = this;
         let plgs = plugins;
 
+        if (!plgs) throw new Error('params is required');
+
         // compatibel array and object
         if (plgs && !Array.isArray(plgs)) plgs = [plugins];
 
