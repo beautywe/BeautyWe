@@ -144,11 +144,6 @@ function attachPlugin({ theHost, plugin }) {
     if (theHost.data[plugin.name]) throw new BtError(`theHost.data.${plugin.name} 命名空间被占用了，插件 ${plugin.name} 需要用到该命名空间，你可以更改插件名（plugin.name = xxx）或者手动更改宿主 data 部分来处理冲突`);
     if (theHost[plugin.name]) throw new BtError(`theHost.${plugin.name} 命名空间被占用了，插件 ${plugin.name} 需要用到该命名空间，你可以更改插件名（plugin.name = xxx）或者手动处理冲突`);
 
-    // attach initialize function
-    if (typeof plugin.initialize === 'function') {
-        theHost.pushInitFun(plugin.initialize.bind(plugin));
-    }
-
     // attach data
     if (plugin.content.data) {
         theHost.data[plugin.name] = plugin.content.data;
@@ -199,6 +194,11 @@ function attachPlugin({ theHost, plugin }) {
             }
             theHost.pushHookFun(funName, handlerHooks[funName]);
         });
+    }
+
+    // attach initialize function
+    if (typeof plugin.initialize === 'function') {
+        theHost.pushInitFun(plugin.initialize.bind(plugin));
     }
 }
 class Host {
