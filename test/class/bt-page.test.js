@@ -1,7 +1,7 @@
 import test from 'ava';
-import BtApp from '../../src/class/bt-app';
+import BtPage from '../../src/class/bt-page';
 
-test('btApp.use', (t) => {
+test('btPage.use', (t) => {
     const counter = {
         pluginA: {},
         pluginB: {},
@@ -41,33 +41,37 @@ test('btApp.use', (t) => {
         },
     });
 
-    const btApp = new BtApp();
+    const btPage = new BtPage({
+        myData: 'myData',
+    });
+
+    t.is(btPage.myData, 'myData');
 
     return Promise
         .resolve()
 
         // use pluginA only
         .then(() => {
-            btApp.use(pluginA);
-            t.deepEqual(btApp.data.pluginA, pluginA.data);
+            btPage.use(pluginA);
+            t.deepEqual(btPage.data.pluginA, pluginA.data);
 
             const optSym1 = Symbol('optSym1:options');
-            return btApp
+            return btPage
                 .onShow(optSym1)
                 .then(() => t.deepEqual(counter.pluginA.onShow, optSym1));
         })
 
         // use both pluginA and pluginB
         .then(() => {
-            btApp.use(pluginB);
+            btPage.use(pluginB);
             const optSym2 = Symbol('optSym2:options');
 
-            t.deepEqual(btApp.data, {
+            t.deepEqual(btPage.data, {
                 pluginA: pluginA.data,
                 pluginB: pluginB.data,
             });
 
-            return btApp
+            return btPage
                 .onShow(optSym2)
                 .then(() => {
                     t.deepEqual(counter.pluginA.onShow, optSym2);
@@ -77,16 +81,16 @@ test('btApp.use', (t) => {
 });
 
 test('has protected key', (t) => {
-    t.is(t.throws(() => new BtApp({
+    t.is(t.throws(() => new BtPage({
         use() {
             return 'use func of plugin';
         },
-    })).message, 'you can\'t use protected domain: use at BtApp');
+    })).message, 'you can\'t use protected domain: use at BtPage');
 
-    t.is(t.throws(() => new BtApp({
+    t.is(t.throws(() => new BtPage({
         _btPlugin: 'hh',
         use() {
             return 'use func of plugin';
         },
-    })).message, 'you can\'t use protected domain: _btPlugin at BtApp');
+    })).message, 'you can\'t use protected domain: _btPlugin at BtPage');
 });
