@@ -94,7 +94,7 @@ myApp.event.trigger('hello', 'I am jc');
 # Appreciates
 
 <p align="left">
-    <img style="width: 350px" src="https://raw.githubusercontent.com/beautywe/docs/master/docs/assets/images/appreciates.jpg">
+    <img width="350" src="https://raw.githubusercontent.com/beautywe/docs/master/docs/assets/images/appreciates.jpg">
 </p>
 
 # License
