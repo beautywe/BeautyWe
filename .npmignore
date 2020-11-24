@@ -8,3 +8,4 @@ coverage
 .gitignore
 webpack.config.js
 .circleci
+package-lock.json
