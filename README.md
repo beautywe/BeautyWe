@@ -91,12 +91,6 @@ myApp.event.trigger('hello', 'I am jc');
 * 欢迎通过 [GitHub issue](https://github.com/beautywe/beautywe/issues) 提交 BUG、以及其他问题
 * 欢迎给该项目点个赞 ⭐️ [star on GitHub](https://github.com/beautywe/beautywe) !
 
-# Appreciates
-
-<p align="left">
-    <img width="350" src="https://raw.githubusercontent.com/beautywe/docs/master/docs/assets/images/appreciates.jpg">
-</p>
-
 # License
 This project is licensed under the [MIT license](LICENSE).
 

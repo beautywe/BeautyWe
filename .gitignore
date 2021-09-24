@@ -3,6 +3,6 @@ npm-debug.log
 .vscode
 .idea
 package-lock.json
-.nyc_output
 coverage
 dist
+lerna-debug.log

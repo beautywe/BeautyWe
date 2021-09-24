@@ -1,0 +1,16 @@
+{
+  "name": "@beautywe/middleware-queue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/main/index.js",
+  "typings": "build/main/index.d.ts",
+  "module": "build/module/index.js",
+  "author": "JerryC8080 (huangjerryc@gmail.com)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@jerryc/mini-logger": "^0.0.4"
+  }
+}

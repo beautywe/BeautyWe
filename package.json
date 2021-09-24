@@ -1,16 +1,20 @@
 {
-  "name": "@beautywe/core",
-  "version": "1.0.2",
+  "name": "beautywejs",
+  "version": "2.0.0",
   "description": "Write beautiful code for wechat mini app by the beautiful we !",
   "main": "dist/index.js",
   "scripts": {
-    "test": "ava",
-    "test:coverage": "nyc --reporter=html ava",
+    "test": "run-s test:*",
+    "test:lint": "eslint packages --ext .ts",
+    "test:unit": "jest",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"packages/**/*.ts\" --write",
+    "fix:lint": "eslint packages --ext .ts --fix",
+    "lint": "run-s test:lint",
+    "cov": "jest --coverage --coverageDirectory=../coverage && open-cli coverage/lcov-report/index.html ",
     "commitmsg": "validate-commit-msg",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "commit": "git cz",
-    "lint": "git diff --cached --name-only | grep -E '\\.(js|jsx)$' | xargs eslint",
-    "build:pro": "rm -rf ./dist && babel src -d dist && webpack"
+    "commit": "git cz"
   },
   "keywords": [
     "beautywe"
@@ -20,69 +24,43 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/beautywe/beautywe-core.git"
+    "url": "git+https://github.com/beautywe/beautywe.git"
   },
   "bugs": {
-    "url": "https://github.com/beautywe/beautywe-core/issues"
+    "url": "https://github.com/beautywe/beautywe/issues"
   },
-  "homepage": "https://github.com/beautywe/beautywe-core#readme",
+  "homepage": "https://github.com/beautywe/beautywe#readme",
   "author": "JerryC8080 (huangjerryc@gmail.com)",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/register": "^7.4.0",
-    "ava": "^1.4.1",
-    "babel-eslint": "^9.0.0",
-    "babel-loader": "^8.0.5",
-    "babel-plugin-array-includes": "^2.0.3",
-    "babel-plugin-istanbul": "^5.1.1",
+    "@types/jest": "^27.0.2",
+    "@types/wechat-miniprogram": "^3.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
     "commitizen": "^3.0.5",
-    "eslint": "^5.3.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "nyc": "^14.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^14.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.2.1",
+    "lerna": "^4.0.0",
+    "lodash": "^4.17.11",
+    "npm-run-all": "^4.1.5",
+    "open-cli": "^7.0.1",
     "pre-commit": "^1.2.2",
-    "validate-commit-msg": "^2.14.0",
-    "webpack": "^4.29.3",
-    "webpack-cli": "^3.2.3",
-    "lodash": "^4.17.11"
+    "prettier": "^2.4.1",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typedoc": "^0.22.4",
+    "typescript": "^4.4.3",
+    "validate-commit-msg": "^2.14.0"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "ava": {
-    "files": [
-      "test/**/*.test.js"
-    ],
-    "require": [
-      "@babel/register",
-      "@babel/polyfill"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ],
-    "plugins": [
-      "array-includes",
-      "@babel/plugin-proposal-class-properties"
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
-  },
-  "nyc": {
-    "sourceMap": false,
-    "instrument": false
+  "prettier": {
+    "singleQuote": true
   }
 }

@@ -1,5 +1,7 @@
 {
-    "extends": "airbnb-base",
+    "root": true,
+    "extends": ["airbnb-base", "airbnb-typescript/base"],
+    "parser": "@typescript-eslint/parser",
     "globals": {
         "App": true,
         "wx": true,
@@ -8,8 +10,16 @@
         "Page": true,
         "global": true
     },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 6,
+        "ecmaFeatures": {
+            "strict": true
+        },
+        "project": "./tsconfig.json"
+    },
     "rules": {
-        "indent": ["error", 4],
+        "indent": ["error", 2],
         "func-names": ["error", "as-needed"],
         "no-param-reassign": ["error", {
             "props": false
@@ -18,7 +28,7 @@
             "code": 200
         }],
         "no-underscore-dangle": "off",
-        "import/no-named-as-default": 0
-    },
-    "parser": "babel-eslint"
+        "import/no-named-as-default": 0,
+        "arrow-parens": "off"
+    }
 }
