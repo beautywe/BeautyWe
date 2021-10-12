@@ -10,6 +10,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "build": "npx scripty"
+  },
+  "scripty": {
+    "path": "../../../scripts/packages"
+  },
   "dependencies": {
     "@jerryc/mini-logger": "^0.0.4"
   }

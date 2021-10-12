@@ -4,9 +4,9 @@
   "description": "Write beautiful code for wechat mini app by the beautiful we !",
   "main": "dist/index.js",
   "scripts": {
-    "test": "run-s test:*",
-    "test:lint": "eslint packages --ext .ts",
-    "test:unit": "jest",
+    "test": "scripty",
+    "test:lint": "scripty",
+    "test:unit": "scripty",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"packages/**/*.ts\" --write",
     "fix:lint": "eslint packages --ext .ts --fix",
@@ -15,6 +15,9 @@
     "commitmsg": "validate-commit-msg",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "commit": "git cz"
+  },
+  "scripty": {
+    "path": "./scripts/project"
   },
   "keywords": [
     "beautywe"
@@ -42,6 +45,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-airbnb-typescript": "^14.0.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
     "jest": "^27.2.1",
     "lerna": "^4.0.0",
     "lodash": "^4.17.11",
@@ -49,6 +53,7 @@
     "open-cli": "^7.0.1",
     "pre-commit": "^1.2.2",
     "prettier": "^2.4.1",
+    "scripty": "^2.0.0",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "typedoc": "^0.22.4",

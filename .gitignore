@@ -6,3 +6,4 @@ package-lock.json
 coverage
 dist
 lerna-debug.log
+packages/**/build
