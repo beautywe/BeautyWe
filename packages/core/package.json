@@ -1,0 +1,23 @@
+{
+  "name": "@beautywe/core",
+  "version": "2.0.0",
+  "description": "",
+  "main": "build/main/index.js",
+  "typings": "build/main/index.d.ts",
+  "module": "build/module/index.js",
+  "author": "JerryC8080 (huangjerryc@gmail.com)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npx scripty"
+  },
+  "scripty": {
+    "path": "../../scripts/packages"
+  },
+  "dependencies": {
+    "@beautywe/middleware-queue": "^1.0.0",
+    "@jerryc/mini-logger": "^0.0.4"
+  }
+}
