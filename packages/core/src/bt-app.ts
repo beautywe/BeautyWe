@@ -1,34 +1,13 @@
-import { MiddlewareQueue } from '@beautywe/middleware-queue';
+import { keys } from '../type';
+import Host from './host';
 
-export enum Lifecycle {
-  // 保持第 0 位，为启动钩子
-  onLaunch = 'onLaunch',
-  onShow = 'onShow',
-  onHide = 'onHide',
+type NativeHook = keyof WechatMiniprogram.App.Option;
+const nativeHooks = keys<WechatMiniprogram.App.Option>();
 
-  // onError 不能监听，发生错误的时候，会发生死循环。
-  // 'onError',
-  onPageNotFound = 'onPageNotFound',
-}
-
-export class BtApp {
-  private lifecycleHooks: Record<Lifecycle, MiddlewareQueue> = {
-    [Lifecycle.onLaunch]: null,
-    [Lifecycle.onShow]: null,
-    [Lifecycle.onHide]: null,
-    [Lifecycle.onPageNotFound]: null,
-  };
-
-  constructor() {
-    // 初始化生命周期队列
-    Object.keys(Lifecycle).forEach((lifecycle) => {
-      this.lifecycleHooks[lifecycle] = new MiddlewareQueue(lifecycle);
-    });
+class BtApp extends Host<NativeHook> {
+  constructor(rawApp: WechatMiniprogram.App.Options<Record<string, any>>) {
+    super({ rawHost: rawApp, nativeHook: nativeHooks, launchHook: 'onLaunch' });
   }
-
-  // public use(plugin) {
-
-  // }
 }
 
 export default BtApp;

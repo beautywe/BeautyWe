@@ -1,7 +1,7 @@
 import { Middleware } from '../type/index';
 
-const callNextWhileIgnore = (middleware: Middleware) => {
-  const fn: Middleware = async (context, next) => {
+const callNextWhileIgnore = (middleware: Middleware<any>) => {
+  const fn: Middleware<any> = async (context, next) => {
     let nextCalled = 0;
     const result = await middleware(context, () => {
       nextCalled = 1;

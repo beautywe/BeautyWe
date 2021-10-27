@@ -1,5 +1,5 @@
 class BtError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     const msg = `[BeautyWe:error] ${message}`;
     super(msg);
   }

@@ -1,25 +1,23 @@
 /**
- * BtPlugin Domain Modal
- * 领域模型，定义 plugin 应该有哪些属性。
+ * BtPlugin Modal
  */
 
-import BtError from './error';
+import type { Middleware } from '@beautywe/middleware-queue';
 
-export interface Lifetimes {
-  // TODO theHost 类型根据宿主决定，应当换成范式传入，枚举：APP、Page、Component
-  beforeAttach: (theHost: any) => void;
-  attached: (theHost: any) => void;
-  initialize: (theHost: any) => void;
+export interface Lifetimes<MiddlewareContext> {
+  beforeAttach: Middleware<MiddlewareContext>;
+  attached: Middleware<MiddlewareContext>;
+  initialize: Middleware<MiddlewareContext>;
 }
 
-export interface IBtPlugin {
+export interface IBtPlugin<NativeHook extends string, MiddlewareContext> {
   name: string;
   data: object;
-  lifetimes: Lifetimes;
-  nativeHook?: Record<string, (theHost: any) => void>;
-  handler?: Record<string, (theHost: any) => void>;
-  eventHandler?: Record<string, (theHost: any) => void>;
-  customMethod?: Record<string, (theHost: any) => void>;
+  lifetimes: Lifetimes<MiddlewareContext>;
+  nativeHook?: Record<NativeHook, Middleware<MiddlewareContext>>;
+  handler?: { [key: string]: Middleware<MiddlewareContext> };
+  eventHandler?: IBtPlugin<NativeHook, MiddlewareContext>['handler'];
+  customMethod?: { [key: string]: Middleware<MiddlewareContext> };
 
   npmName?: string;
   version?: string;
@@ -29,29 +27,29 @@ export interface IBtPlugin {
   }
 }
 
-export class BtPlugin {
-  public name: IBtPlugin['name'];
+export class BtPlugin<NativeHook extends string, MiddlewareContext> {
+  public name: IBtPlugin<NativeHook, MiddlewareContext>['name'];
 
-  public npmName: IBtPlugin['npmName'];
+  public npmName: IBtPlugin<NativeHook, MiddlewareContext>['npmName'];
 
-  public version: IBtPlugin['version'];
+  public version: IBtPlugin<NativeHook, MiddlewareContext>['version'];
 
   public options: {
-    relyOn: IBtPlugin['relyOn'];
+    relyOn: IBtPlugin<NativeHook, MiddlewareContext>['relyOn'];
   };
 
-  public plugin: {
-    data: IBtPlugin['data'];
-    custom: IBtPlugin['customMethod'];
-    nativeHook: IBtPlugin['nativeHook'];
-    handler: IBtPlugin['eventHandler'];
+  public content: {
+    data: IBtPlugin<NativeHook, MiddlewareContext>['data'];
+    custom: IBtPlugin<NativeHook, MiddlewareContext>['customMethod'];
+    nativeHook: IBtPlugin<NativeHook, MiddlewareContext>['nativeHook'];
+    handler: IBtPlugin<NativeHook, MiddlewareContext>['eventHandler'];
   };
 
-  public beforeAttach: Lifetimes['beforeAttach'];
+  public beforeAttach: Lifetimes<MiddlewareContext>['beforeAttach'];
 
-  public attached: Lifetimes['attached'];
+  public attached: Lifetimes<MiddlewareContext>['attached'];
 
-  public initialize: Lifetimes['initialize'];
+  public initialize: Lifetimes<MiddlewareContext>['initialize'];
 
   /**
     * Crate a BtPlugin instance
@@ -69,13 +67,11 @@ export class BtPlugin {
     * @param {string} [plugin.relyOn.npmName] npm 包的名字，可选
     * @param {string} [plugin.relyOn.version] npm 包的版本号，可选
     */
-  constructor(plugin: IBtPlugin) {
-    if (!plugin.name) throw new BtError('params of name are required when create a BtPlugin.');
-
+  constructor(plugin: IBtPlugin<NativeHook, MiddlewareContext>) {
     this.name = plugin.name;
     this.npmName = plugin.npmName;
     this.version = plugin.version;
-    this.plugin = {
+    this.content = {
       data: plugin.data,
       custom: plugin.customMethod,
       nativeHook: plugin.nativeHook,
@@ -84,15 +80,9 @@ export class BtPlugin {
     this.options = {
       relyOn: plugin.relyOn,
     };
-    if (typeof plugin.lifetimes.beforeAttach === 'function') {
-      this.beforeAttach = plugin.lifetimes.beforeAttach.bind(this);
-    }
-    if (typeof plugin.lifetimes.attached === 'function') {
-      this.attached = plugin.lifetimes.attached.bind(this);
-    }
-    if (typeof plugin.lifetimes.initialize === 'function') {
-      this.initialize = plugin.lifetimes.initialize.bind(this);
-    }
+    this.beforeAttach = plugin.lifetimes.beforeAttach?.bind(this);
+    this.attached = plugin.lifetimes.attached?.bind(this);
+    this.initialize = plugin.lifetimes.initialize?.bind(this);
   }
 }
 

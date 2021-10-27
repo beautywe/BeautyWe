@@ -3,16 +3,16 @@ import { compose } from './compose';
 import { Middleware } from '../type/index';
 import callNextWhileIgnore from './call-next-while-ignore';
 
-export class MiddlewareQueue {
+export class MiddlewareQueue<Context> {
   private name = 'anonymous';
 
-  private queue: Array<Middleware> = [];
+  private queue: Array<Middleware<Context>> = [];
 
   constructor(name: string) {
     if (name) this.name = name;
   }
 
-  public push(middleware: Middleware) {
+  public push(middleware: Middleware<Context>) {
     logger.debug(
       `MiddlewareQueue:${this.name}`,
       'a middleware pushed',
@@ -22,7 +22,7 @@ export class MiddlewareQueue {
     this.queue.push(callNextWhileIgnore(middleware));
   }
 
-  public async runAll(context = {}) {
+  public async runAll(context: Context) {
     logger.debug(
       `MiddlewareQueue:${this.name}`,
       'will run all middleware as serial',

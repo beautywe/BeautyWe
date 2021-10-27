@@ -1,2 +1,3 @@
 #!/usr/bin/env sh
-tsc
+ttsc -p tsconfig.main.json
+ttsc -p tsconfig.module.json

@@ -9,7 +9,7 @@
  */
 import { Middleware } from '../type/index';
 
-export function compose(middleware: Middleware[]): Middleware {
+export function compose(middleware: Middleware<any>[]): Middleware<any> {
   return function doCompose(context, next) {
     // last called middleware #
     let index = -1;
@@ -18,7 +18,7 @@ export function compose(middleware: Middleware[]): Middleware {
         return Promise.reject(new Error('next() called multiple times'));
       }
       index = i;
-      let fn: Middleware | undefined = middleware[i];
+      let fn: Middleware<any> | undefined = middleware[i];
       if (i === middleware.length) fn = next;
       if (!fn) return Promise.resolve();
       try {

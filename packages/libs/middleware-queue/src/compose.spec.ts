@@ -8,8 +8,8 @@ function wait(ms: number) {
 describe('Compose', () => {
   it('should work', async () => {
     const arr: number[] = [];
-    const stack: Middleware[] = [];
     const globalContext = Symbol('anonymous');
+    const stack: Middleware<typeof globalContext>[] = [];
 
     stack.push(async (context, next) => {
       expect(context).toBe(globalContext);
@@ -43,7 +43,7 @@ describe('Compose', () => {
   });
 
   it('should be able to be called twice', () => {
-    const stack: Middleware[] = [];
+    const stack: Middleware<{ arr: number[] }>[] = [];
 
     stack.push(async (context, next) => {
       context.arr.push(1);
@@ -87,7 +87,7 @@ describe('Compose', () => {
   it('should work with 0 middleware', () => compose([])({}));
 
   it('should work when yielding at the end of the stack', async () => {
-    const stack: Middleware[] = [];
+    const stack: Middleware<any>[] = [];
     let called = false;
 
     // @ts-ignore
@@ -101,7 +101,7 @@ describe('Compose', () => {
   });
 
   it('should reject on errors in middleware', () => {
-    const stack: Middleware[] = [];
+    const stack: Middleware<any>[] = [];
 
     stack.push(() => {
       throw new Error();
@@ -117,7 +117,7 @@ describe('Compose', () => {
   });
 
   it('should work when yielding at the end of the stack with yield*', () => {
-    const stack: Middleware[] = [];
+    const stack: Middleware<any>[] = [];
 
     // @ts-ignore
     stack.push(async (ctx, next) => {
@@ -130,7 +130,7 @@ describe('Compose', () => {
   it('should keep the context', () => {
     const ctx = {};
 
-    const stack: Middleware[] = [];
+    const stack: Middleware<typeof ctx>[] = [];
 
     stack.push(async (ctx2, next) => {
       await next?.();
@@ -152,7 +152,7 @@ describe('Compose', () => {
 
   it('should catch downstream errors', async () => {
     const arr: number[] = [];
-    const stack: Middleware[] = [];
+    const stack: Middleware<any>[] = [];
 
     // @ts-ignore
     stack.push(async (ctx, next) => {
@@ -187,7 +187,7 @@ describe('Compose', () => {
   });
 
   it('should handle errors in wrapped non-async functions', () => {
-    const stack: Middleware[] = [];
+    const stack: Middleware<any>[] = [];
 
     stack.push(() => {
       throw new Error();
@@ -271,7 +271,7 @@ describe('Compose', () => {
   });
 
   it('should return last return value', () => {
-    const stack: Middleware[] = [];
+    const stack: Middleware<any>[] = [];
 
     // @ts-ignore
     stack.push(async (context, next) => {
@@ -307,17 +307,18 @@ describe('Compose', () => {
   });
 
   it('should not get stuck on the passed in next', () => {
-    const middleware: Middleware[] = [
-      (ctx, next) => {
-        // eslint-disable-next-line no-plusplus
-        ctx.middleware++;
-        return next?.();
-      },
-    ];
     const ctx = {
       middleware: 0,
       next: 0,
     };
+
+    const middleware: Middleware<typeof ctx>[] = [
+      (_ctx, next) => {
+        // eslint-disable-next-line no-plusplus
+        _ctx.middleware++;
+        return next?.();
+      },
+    ];
 
     // @ts-ignore
     return compose(middleware)(ctx, (_ctx, next) => {

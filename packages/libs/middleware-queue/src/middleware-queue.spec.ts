@@ -7,8 +7,8 @@ const sleep = () => new Promise((res) => setTimeout(res, 500));
 
 describe('MiddlewareQueue', () => {
   test('should work', async () => {
-    const queue = new MiddlewareQueue('beforeRegister');
     const context = { count: 0 };
+    const queue = new MiddlewareQueue<typeof context>('beforeRegister');
 
     queue.push(async (ctx, next) => {
       expect(ctx.count).toBe(0);
@@ -38,8 +38,8 @@ describe('MiddlewareQueue', () => {
   });
 
   test('should work if ignore next', async () => {
-    const queue = new MiddlewareQueue('beforeRegister');
     const context = { count: 0 };
+    const queue = new MiddlewareQueue<typeof context>('beforeRegister');
 
     queue.push(async (ctx) => {
       expect(ctx.count).toBe(0);

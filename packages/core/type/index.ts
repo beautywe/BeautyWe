@@ -1,2 +1,3 @@
-export type NextFn = () => any;
-export type Middleware = (context: any, next?: NextFn) => Promise<any>;
+/* eslint-disable import/prefer-default-export */
+// eslint-disable-next-line import/no-extraneous-dependencies
+export { keys } from 'ts-transformer-keys';
