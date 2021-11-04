@@ -83,8 +83,6 @@ export class Host<NativeHook extends string> {
      * @param {object} plugins[n].content.handler handler method for the host
      * @param {object} plugins[n].content.nativeHook nativeHook method for the host
      * @param {object} plugins[n].content.customMethod customMethod method for the host
-     * @param {object} plugins[n].options options of plugin
-     * @param {Array} plugins[n].options.relyOn options of plugin
      * @param {object} plugins[n].beforeAttach 插件装载前的钩子方法，beforeAttach({ theHost })
      * @param {object} plugins[n].attached 插件装载完成的钩子方法，attached({ theHost })
      * @param {object} plugins[n].initialize 初始化方法，会在宿主启动的时候初始化，已同步的形式执行，initialize({ theHost })
@@ -144,7 +142,7 @@ export class Host<NativeHook extends string> {
 
     // attach native hook
     if (plugin.content.nativeHook) {
-      Object.entries<Middleware<HostContext>>((plugin.content.nativeHook)).forEach(([hookName, hook]) => {
+      Object.entries<Middleware<HostContext>>((plugin.content.nativeHook as never)).forEach(([hookName, hook]) => {
         if (typeof hook !== 'function') {
           logger.warn(`nativeHook attach fail，the native hook(${hookName}) should be a function`);
           return;
