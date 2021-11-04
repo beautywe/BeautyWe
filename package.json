@@ -23,7 +23,7 @@
     "beautywe"
   ],
   "pre-commit": [
-    "lint"
+    "test"
   ],
   "repository": {
     "type": "git",
