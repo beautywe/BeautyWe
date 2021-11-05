@@ -58,6 +58,11 @@ export class Host<NativeHook extends string> {
 
     if (rawHost) {
       Object.keys(rawHost).forEach((key) => {
+        // Data 域进行合并
+        if (key === 'data') {
+          Object.assign(this.data, rawHost.data);
+          return;
+        }
         // 对 NativeHook 进行插件初始化。
         if (nativeHook.includes(key) && typeof rawHost[key] === 'function') {
           const originNativeHook = rawHost[key].bind(rawHost);

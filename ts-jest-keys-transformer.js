@@ -1,0 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const keysTransformer = require('ts-transformer-keys/transformer').default;
+
+const name = 'my-key-transformer';
+const version = 1;
+const factory = (cs) => (ctx) => keysTransformer(cs.program)(ctx);
+
+module.exports = { name, version, factory };
