@@ -1,13 +1,16 @@
-import BtPage from './bt-page';
+import BtPage, { WxPageOptions } from './bt-page';
 
 describe('BtPage', () => {
   it('1. 完整创建 Page 对象', () => {
-    const rawPage = {
+    const wxPageOptions: WxPageOptions = {
       data: { name: 'test btpage' },
+      onShow: () => {
+        console.log('on test page show');
+      },
     };
 
-    const btPage = new BtPage(rawPage);
+    const btPage = new BtPage(wxPageOptions);
 
-    expect(btPage.data.name).toEqual(rawPage.data.name);
+    expect(btPage.data.name).toEqual(wxPageOptions?.data?.name);
   });
 });
