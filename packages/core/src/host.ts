@@ -18,7 +18,10 @@ export class Host<NativeHook extends string> {
     nativeHookNames: string[],
 
     // 存放 attached plugin info
-    plugins: BtPlugin<NativeHook, HostContext>[],
+    attachedPluginInfo: {
+      name: BtPlugin<NativeHook, HostContext>['name'],
+      content: BtPlugin<NativeHook, HostContext>['content'],
+    }[],
 
     // 存放插件化的函数队列（native hook & handler hook）
     // （这个队列里面的方法，会在对应的钩子函数触发的时候被执行，参数：this => theHost，以及原有参数透传）
@@ -39,7 +42,7 @@ export class Host<NativeHook extends string> {
     // new a domain space
     this.plugin = {
       nativeHookNames: nativeHook,
-      plugins: [],
+      attachedPluginInfo: [],
       pluggableFunQueueMap: {},
       initializeQueue: new MiddlewareQueue<HostContext>('initialize'),
     };
@@ -109,7 +112,7 @@ export class Host<NativeHook extends string> {
 
     btPlgs.forEach((plugin) => {
       // duplicative registerd checking
-      if (this.plugin.plugins.map(item => item.name).includes(plugin.name)) {
+      if (this.plugin.attachedPluginInfo.map(item => item.name).includes(plugin.name)) {
         throw new BtError(`${plugin.name} 已经注册了，不允许重复注册`);
       }
 
@@ -121,6 +124,12 @@ export class Host<NativeHook extends string> {
 
       // do plugin attached hook functions
       if (typeof plugin.attached === 'function') plugin.attached(context);
+
+      // record plugin info
+      this.plugin.attachedPluginInfo.push({
+        name: plugin.name,
+        content: plugin.content,
+      });
     });
   }
 
