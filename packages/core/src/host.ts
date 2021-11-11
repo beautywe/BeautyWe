@@ -47,16 +47,22 @@ export class Host<NativeHook extends string> {
       initializeQueue: new MiddlewareQueue<HostContext>('initialize'),
     };
 
+    // 对原生 Hooks 进行插件化
     nativeHook.forEach((hookName) => {
-      const middlerwareQueue = new MiddlewareQueue<HostContext>(hookName);
-      this.plugin.pluggableFunQueueMap[hookName] = middlerwareQueue;
+      const middlewareQueue = new MiddlewareQueue<HostContext>(hookName);
+      this.plugin.pluggableFunQueueMap[hookName] = middlewareQueue;
 
       if (hookName === launchHook) {
         // 如果当前是启动 Hook，就队列前执行初始化钩子
-        middlerwareQueue.push(async (context) => {
+        middlewareQueue.push(async (context) => {
           this.plugin.initializeQueue.runAll(context);
         });
       }
+
+      // 代理 NativeHook，运行插件队列
+      Object.defineProperty(this, hookName, {
+        value: async (context: HostContext) => middlewareQueue.runAll(context),
+      });
     });
 
     if (rawHost) {
@@ -66,10 +72,12 @@ export class Host<NativeHook extends string> {
           Object.assign(this.data, rawHost.data);
           return;
         }
-        // 对 NativeHook 进行插件初始化。
+
+        // 对 RawHost 的 NativeHook 进行入队处理
         if (nativeHook.includes(key) && typeof rawHost[key] === 'function') {
-          const originNativeHook = rawHost[key].bind(rawHost);
+          const originNativeHook = rawHost[key].bind(this);
           this.plugin.pluggableFunQueueMap[key]?.push(originNativeHook);
+          return;
         }
 
         // 检查是否已被占用的 property
@@ -77,7 +85,8 @@ export class Host<NativeHook extends string> {
           throw new BtError(`很抱歉，${key} 是 BeautyWe 内部保护属性，请重新命名`);
         }
 
-        Object.defineProperty(this, key, rawHost[key]);
+        // 默认情况，rawHost property 都定义在当前 host 实例上
+        Object.defineProperty(this, key, { value: rawHost[key] });
       });
     }
   }

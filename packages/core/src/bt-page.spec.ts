@@ -17,13 +17,15 @@ describe('BtPage', () => {
   it('2. 使用插件', async () => {
     const wxPageOptions: WxPageOptions = {
       data: { name: 'test btpage' },
-      onshow: () => {
+      onShow: () => {
         console.log('on test page show');
       },
     };
 
     const counter: any = {
-      pluginA: {},
+      pluginA: {
+        onShow: {},
+      },
       pluginB: {},
     };
 
@@ -39,7 +41,7 @@ describe('BtPage', () => {
       },
       nativeHook: {
         onShow: async (options) => {
-          counter.pluginA.onShow = options;
+          counter.pluginA.onShow.options = options;
         },
       },
     };
@@ -51,5 +53,10 @@ describe('BtPage', () => {
 
     // expect data merged
     expect(btPage.data?.pluginA).toEqual(pluginA.data);
+
+    // expect onShow called
+    // @ts-ignore TODO TS 修复！
+    await btPage.onShow({ name: 'david' });
+    expect(counter.pluginA.onShow.options).toEqual({ name: 'david' });
   });
 });
