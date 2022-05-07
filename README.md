@@ -1,6 +1,6 @@
 <p align="center">
   <a href="http://beautywejs.com">
-      <img width="620" src="https://raw.githubusercontent.com/beautywe/docs/master/docs/assets/images/logo-V4.png">
+      <img width="620" src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/jerryc/20220507084109.png">
   </a>
 </p>
 
@@ -90,12 +90,6 @@ myApp.event.trigger('hello', 'I am jc');
 * 欢迎通过邮箱来跟我联系: huangjerryc@gmail.com
 * 欢迎通过 [GitHub issue](https://github.com/beautywe/beautywe/issues) 提交 BUG、以及其他问题
 * 欢迎给该项目点个赞 ⭐️ [star on GitHub](https://github.com/beautywe/beautywe) !
-
-# Appreciates
-
-<p align="left">
-    <img width="350" src="https://raw.githubusercontent.com/beautywe/docs/master/docs/assets/images/appreciates.jpg">
-</p>
 
 # License
 This project is licensed under the [MIT license](LICENSE).
